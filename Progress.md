@@ -117,6 +117,51 @@ Added Settings() class which contains environmental variables and use in whole a
 ### 2.1 Created PostgreSQL Database
 
 ### 2.2 SQLAlchemy and asyncpg configuration
+
+### 2.3 Alembic and Database Migrations
+
+**1. Initialize Alembic**
+
+Command:
+
+```powershell
+uv run alembic init -t async alembic
+```
+
+* Initialized Alembic using the asynchronous migration template.
+* Created the `alembic` directory and `alembic.ini` configuration file.
+
+**2. Configure Alembic**
+
+* Updated `alembic/env.py` to use SQLAlchemy's declarative `Base`.
+* Configured Alembic to load the database URL from application settings (`.env`).
+* Configured asynchronous database migrations using SQLAlchemy's async engine.
+* Enabled automatic detection of column type changes using `compare_type=True`.
+* Removed the hardcoded database URL from `alembic.ini`.
+
+**3. Verify Alembic Configuration**
+
+Commands:
+
+```powershell
+uv run alembic current
+```
+
+```powershell
+uv run alembic history
+```
+
+Results:
+
+* Successfully identified PostgreSQL as the database dialect.
+* Verified Alembic database migration context.
+* Confirmed Alembic configuration is working correctly.
+
+**Note:** No migration scripts have been generated yet. The first meaningful migration will be created after implementing the SQLAlchemy models.
+
+
+
+
 ---
 
 ```sql
