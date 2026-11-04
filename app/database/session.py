@@ -4,9 +4,9 @@ from sqlalchemy.ext.asyncio import (
     create_async_engine,
 )
 
-from app.core.config import settings
+from app.core.config import get_async_database_url, settings
 
-DATABASE_URL = settings.DATABASE_URL.get_secret_value()
+DATABASE_URL = get_async_database_url()
 
 
 engine = create_async_engine(

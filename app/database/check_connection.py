@@ -26,5 +26,9 @@ async def check_database_connection():
 
 if __name__ == "__main__":
     import asyncio
+    import selectors
 
-    asyncio.run(check_database_connection())
+    asyncio.run(
+        check_database_connection(),
+        loop_factory=lambda: asyncio.SelectorEventLoop(selectors.SelectSelector()),
+    )

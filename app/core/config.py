@@ -1,5 +1,6 @@
 from pydantic import SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
+from sqlalchemy.engine import make_url
 
 
 class Settings(BaseSettings):
@@ -14,3 +15,10 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
+
+
+def get_async_database_url() -> str:
+    database_url = make_url(settings.DATABASE_URL.get_secret_value())
+    if database_url.drivername == "postgresql":
+        database_url = database_url.set(drivername="postgresql+asyncpg")
+    return database_url.render_as_string(hide_password=False)

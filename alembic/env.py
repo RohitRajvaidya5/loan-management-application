@@ -5,8 +5,9 @@ from sqlalchemy import pool
 from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
 
+import app.models
 from alembic import context
-from app.core.config import settings
+from app.core.config import get_async_database_url, settings
 from app.database.base import Base
 
 # this is the Alembic Config object, which provides
@@ -26,7 +27,7 @@ target_metadata = Base.metadata
 
 
 # Database connection URL
-database_url = settings.DATABASE_URL.get_secret_value()
+database_url = get_async_database_url()
 
 config.set_main_option(
     "sqlalchemy.url",
