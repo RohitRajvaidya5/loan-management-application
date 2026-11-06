@@ -1,5 +1,6 @@
 # Environment variables
 .env
+.env.test
 
 # Python
 __pycache__/
@@ -17,6 +18,9 @@ htmlcov/
 
 # Linting
 .ruff_cache/
+
+# Local development document uploads
+var/documents/
 
 # Build
 dist/

@@ -1,0 +1,28 @@
+from enum import StrEnum
+
+
+class AuditAction(StrEnum):
+    USER_CREATED = "user.created"
+    USER_UPDATED = "user.updated"
+    USER_ACTIVATED = "user.activated"
+    USER_DEACTIVATED = "user.deactivated"
+    USER_ROLE_CHANGED = "user.role_changed"
+    PASSWORD_CHANGED = "user.password_changed"
+    LOGIN_SUCCESS = "auth.login_succeeded"
+    LOGIN_FAILED = "auth.login_failed"
+    LOGOUT = "auth.logged_out"
+    CUSTOMER_CREATED = "customer.created"
+    CUSTOMER_UPDATED = "customer.updated"
+    APPLICATION_CREATED = "loan_application.created"
+    APPLICATION_UPDATED = "loan_application.updated"
+    APPLICATION_ASSIGNED = "loan_application.assigned"
+    APPLICATION_STATUS_CHANGED = "loan_application.status_updated"
+    NOTE_CREATED = "application_note.created"
+    DOCUMENT_UPLOADED = "document.uploaded"
+    DOCUMENT_REVIEWED = "document.reviewed"
+    DOCUMENT_REPLACED = "document.replaced"
+    DOCUMENT_DELETED = "document.deleted"
+    DOCUMENT_DOWNLOADED = "document.downloaded"
+    REQUIREMENTS_UPDATED = "document_requirements.updated"
+    REPORT_EXPORTED = "report.exported"
+    NOTIFICATION_RETRIED = "notification.retried"

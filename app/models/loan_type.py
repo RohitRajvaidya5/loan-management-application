@@ -1,12 +1,16 @@
+from typing import TYPE_CHECKING
+
 from sqlalchemy import Boolean, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-
 from app.database.base import (
     Base,
-    UUIDPrimaryKeyMixin,
     TimestampMixin,
+    UUIDPrimaryKeyMixin,
 )
+
+if TYPE_CHECKING:
+    from app.models.loan_application import LoanApplication
 
 
 class LoanType(Base, UUIDPrimaryKeyMixin, TimestampMixin):
@@ -29,8 +33,12 @@ class LoanType(Base, UUIDPrimaryKeyMixin, TimestampMixin):
         nullable=False,
     )
 
+    document_requirements_configured: Mapped[bool] = mapped_column(
+        Boolean, nullable=False, server_default="false"
+    )
+
     loan_applications: Mapped[list["LoanApplication"]] = relationship(
-    back_populates="loan_type",
+        back_populates="loan_type",
     )
 
     def __repr__(self):

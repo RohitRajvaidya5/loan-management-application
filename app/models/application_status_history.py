@@ -1,12 +1,15 @@
 import uuid
 from datetime import datetime
+from typing import TYPE_CHECKING
 
 from sqlalchemy import (
     DateTime,
-    Enum as SQLAlchemyEnum,
     ForeignKey,
     Text,
     func,
+)
+from sqlalchemy import (
+    Enum as SQLAlchemyEnum,
 )
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -15,6 +18,10 @@ from app.database.base import (
     UUIDPrimaryKeyMixin,
 )
 from app.enums.application_status import ApplicationStatus
+
+if TYPE_CHECKING:
+    from app.models.loan_application import LoanApplication
+    from app.models.user import User
 
 
 class ApplicationStatusHistory(Base, UUIDPrimaryKeyMixin):
@@ -30,9 +37,7 @@ class ApplicationStatusHistory(Base, UUIDPrimaryKeyMixin):
         SQLAlchemyEnum(
             ApplicationStatus,
             name="application_status",
-            values_callable=lambda enum_class: [
-                item.value for item in enum_class
-            ],
+            values_callable=lambda enum_class: [item.value for item in enum_class],
         ),
         nullable=True,
     )
@@ -41,9 +46,7 @@ class ApplicationStatusHistory(Base, UUIDPrimaryKeyMixin):
         SQLAlchemyEnum(
             ApplicationStatus,
             name="application_status",
-            values_callable=lambda enum_class: [
-                item.value for item in enum_class
-            ],
+            values_callable=lambda enum_class: [item.value for item in enum_class],
         ),
         nullable=False,
     )

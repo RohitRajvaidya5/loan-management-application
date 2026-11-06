@@ -1,5 +1,6 @@
 import uuid
 from decimal import Decimal
+from typing import TYPE_CHECKING
 
 from sqlalchemy import (
     Enum as SQLAlchemyEnum,
@@ -20,9 +21,19 @@ from app.database.base import (
 )
 from app.enums.application_status import ApplicationStatus
 
+if TYPE_CHECKING:
+    from app.models.application_note import ApplicationNote
+    from app.models.application_status_history import ApplicationStatusHistory
+    from app.models.customer import Customer
+    from app.models.document import Document
+    from app.models.loan_type import LoanType
+    from app.models.user import User
+
 
 class LoanApplication(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     __tablename__ = "loan_applications"
+
+    version: Mapped[int] = mapped_column(Integer, nullable=False, server_default="1")
 
     application_number: Mapped[str] = mapped_column(
         String(30),

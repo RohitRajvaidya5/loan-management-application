@@ -1,0 +1,138 @@
+from fastapi import APIRouter, Depends
+
+from app.api.v1.applications import (
+    assign_application,
+    calculate_application_emi,
+    create_application,
+    create_application_note,
+    get_application,
+    get_application_note,
+    get_application_status_history,
+    list_application_notes,
+    list_applications,
+    staff_user,
+    update_application,
+    update_application_status,
+)
+from app.api.v1.dependencies import require_permission
+from app.schemas.applications import (
+    ApplicationNoteResponse,
+    LoanApplicationResponse,
+    StatusHistoryResponse,
+)
+from app.schemas.common import Page
+from app.schemas.emi import EMICalculationResponse
+
+router = APIRouter()
+router.add_api_route(
+    "/{application_id}/notes",
+    create_application_note,
+    methods=["POST"],
+    response_model=ApplicationNoteResponse,
+    status_code=201,
+    dependencies=[
+        Depends(staff_user),
+        Depends(require_permission("application_notes:create")),
+    ],
+)
+router.add_api_route(
+    "/{application_id}/notes",
+    list_application_notes,
+    methods=["GET"],
+    response_model=Page[ApplicationNoteResponse],
+    dependencies=[
+        Depends(staff_user),
+        Depends(require_permission("application_notes:read")),
+    ],
+)
+router.add_api_route(
+    "/{application_id}/notes/{note_id}",
+    get_application_note,
+    methods=["GET"],
+    response_model=ApplicationNoteResponse,
+    dependencies=[
+        Depends(staff_user),
+        Depends(require_permission("application_notes:read")),
+    ],
+)
+router.add_api_route(
+    "/emi",
+    calculate_application_emi,
+    methods=["POST"],
+    response_model=EMICalculationResponse,
+    dependencies=[
+        Depends(staff_user),
+        Depends(require_permission("loan_applications:read")),
+    ],
+)
+router.add_api_route(
+    "",
+    create_application,
+    methods=["POST"],
+    response_model=LoanApplicationResponse,
+    status_code=201,
+    dependencies=[
+        Depends(staff_user),
+        Depends(require_permission("loan_applications:create")),
+    ],
+)
+router.add_api_route(
+    "",
+    list_applications,
+    methods=["GET"],
+    response_model=Page[LoanApplicationResponse],
+    dependencies=[
+        Depends(staff_user),
+        Depends(require_permission("loan_applications:read")),
+    ],
+)
+router.add_api_route(
+    "/{application_id}",
+    get_application,
+    methods=["GET"],
+    response_model=LoanApplicationResponse,
+    dependencies=[
+        Depends(staff_user),
+        Depends(require_permission("loan_applications:read")),
+    ],
+)
+router.add_api_route(
+    "/{application_id}",
+    update_application,
+    methods=["PATCH"],
+    response_model=LoanApplicationResponse,
+    dependencies=[
+        Depends(staff_user),
+        Depends(require_permission("loan_applications:update")),
+    ],
+)
+router.add_api_route(
+    "/{application_id}/assignment",
+    assign_application,
+    methods=["PATCH"],
+    response_model=LoanApplicationResponse,
+    dependencies=[
+        Depends(staff_user),
+        Depends(require_permission("loan_applications:assign")),
+    ],
+)
+router.add_api_route(
+    "/{application_id}/status",
+    update_application_status,
+    methods=["PATCH"],
+    response_model=LoanApplicationResponse,
+    dependencies=[
+        Depends(staff_user),
+        Depends(require_permission("loan_applications:status_update")),
+    ],
+)
+router.add_api_route(
+    "/{application_id}/history",
+    get_application_status_history,
+    methods=["GET"],
+    response_model=list[StatusHistoryResponse],
+    dependencies=[
+        Depends(staff_user),
+        Depends(require_permission("loan_applications:read")),
+    ],
+)

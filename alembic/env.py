@@ -5,9 +5,9 @@ from sqlalchemy import pool
 from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
 
-import app.models
+import app.models  # noqa: F401 - register every model in migration metadata
 from alembic import context
-from app.core.config import get_async_database_url, settings
+from app.core.config import get_async_database_url
 from app.database.base import Base
 
 # this is the Alembic Config object, which provides

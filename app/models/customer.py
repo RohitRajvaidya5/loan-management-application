@@ -1,13 +1,17 @@
 from datetime import date
+from typing import TYPE_CHECKING
 
 from sqlalchemy import Date, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database.base import (
     Base,
-    UUIDPrimaryKeyMixin,
     TimestampMixin,
+    UUIDPrimaryKeyMixin,
 )
+
+if TYPE_CHECKING:
+    from app.models.loan_application import LoanApplication
 
 
 class Customer(Base, UUIDPrimaryKeyMixin, TimestampMixin):
@@ -60,7 +64,7 @@ class Customer(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     )
 
     loan_applications: Mapped[list["LoanApplication"]] = relationship(
-    back_populates="customer",
+        back_populates="customer",
     )
 
     def __repr__(self):

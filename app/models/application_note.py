@@ -1,4 +1,5 @@
 import uuid
+from typing import TYPE_CHECKING
 
 from sqlalchemy import ForeignKey, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -8,6 +9,10 @@ from app.database.base import (
     TimestampMixin,
     UUIDPrimaryKeyMixin,
 )
+
+if TYPE_CHECKING:
+    from app.models.loan_application import LoanApplication
+    from app.models.user import User
 
 
 class ApplicationNote(Base, UUIDPrimaryKeyMixin, TimestampMixin):

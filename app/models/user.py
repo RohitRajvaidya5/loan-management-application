@@ -1,14 +1,25 @@
 import uuid
 from datetime import datetime
+from typing import TYPE_CHECKING
 
-from sqlalchemy import Boolean, DateTime, ForeignKey, String, Uuid
+from sqlalchemy import Boolean, DateTime, ForeignKey, Integer, String, Uuid
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database.base import Base, TimestampMixin, UUIDPrimaryKeyMixin
 
+if TYPE_CHECKING:
+    from app.models.application_note import ApplicationNote
+    from app.models.audit_log import AuditLog
+    from app.models.loan_application import LoanApplication
+    from app.models.role import Role
+
 
 class User(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     __tablename__ = "users"
+
+    token_version: Mapped[int] = mapped_column(
+        Integer, nullable=False, server_default="0"
+    )
 
     full_name: Mapped[str] = mapped_column(
         String(150),
